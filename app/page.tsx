@@ -1,4 +1,14 @@
+"use client";
+import { button } from "@nextui-org/react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+interface UrlForm {
+  fullUrl: string;
+}
+
 export default function Home() {
+  const { register, handleSubmit } = useForm<UrlForm>();
+
   return (
     <>
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
@@ -18,21 +28,28 @@ export default function Home() {
             </h3>
           </div>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 py-3">
           <div className="card w-96 bg-neutral text-neutral-content">
             <div className="card-body text-center">
               <div className="label">
                 <div className="label-text text-neutral-content">Long URL</div>
               </div>
-              <input
-                type="text"
-                placeholder="URL goes here ->"
-                className="input input-ghost input-primary input-md w-full md:max-w-xs lg:max-w-sm xl:max-w-md"
-              />
-
-              <button className="btn btn-outline btn-secondary sm:btn-sm md:btn-md lg:btn-md">
-                Shrink
-              </button>
+              <form
+                className="space-y-3"
+                onSubmit={handleSubmit(async (data) => 
+                  await axios.post('/api/shrink',data))}
+              >
+                <input
+                  type="text"
+                  placeholder="URL goes here ->"
+                  className="input input-ghost input-primary input-md w-full md:max-w-xs lg:max-w-sm xl:max-w-md"
+                  {...register("fullUrl")}
+                />
+                <br />
+                <button className="btn btn-outline btn-secondary sm:btn-sm md:btn-md lg:btn-md">
+                  Shrink
+                </button>
+              </form>
             </div>
           </div>
         </div>
