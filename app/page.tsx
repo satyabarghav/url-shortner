@@ -1,14 +1,12 @@
-"use client";
+'use client'
 import { button } from "@nextui-org/react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useRouter } from "next/router";
 interface UrlForm {
   fullUrl: string;
 }
 
 export default function Home() {
-  useRouter
   const { register, handleSubmit } = useForm<UrlForm>();
 
   return (
