@@ -5,7 +5,6 @@ import { useState } from "react";
 import { stringify } from "querystring";
 import React from "react";
 import { useCopyToClipboard } from 'usehooks-ts'
-import {getBaseUrl} from '@/components/base'
 interface UrlForm {
   fullUrl: string;
 }
@@ -15,13 +14,13 @@ export default function Home() {
   const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
   const [url, setUrl] = useState<string>("");
   const [value, copy] = useCopyToClipboard()
-  const baseUrl = getBaseUrl();
+  const baseUrl = "https://url-shortner-chi-silk.vercel.app/"
   const onSubmit = async (data: UrlForm) => {
     try {
       const urlInfo = await axios.post("/api/shrink", data);
       let noisyUrl = stringify(urlInfo.data);
       let shortUrl = noisyUrl.replace("shortUrl=", "")
-      setUrl(baseUrl+"/api/shrink/"+shortUrl);
+      setUrl(baseUrl+shortUrl);
 
       setShowSuccessMessage(true);
     } catch (error) {
