@@ -4,7 +4,10 @@ import axios from "axios";
 import { useState } from "react";
 import { stringify } from "querystring";
 import React from "react";
-import { useCopyToClipboard } from 'usehooks-ts'
+import { useCopyToClipboard } from "usehooks-ts";
+import { FaClipboard, FaClipboardCheck } from "react-icons/fa";
+import { IoCopyOutline } from "react-icons/io5";
+
 interface UrlForm {
   fullUrl: string;
 }
@@ -12,22 +15,28 @@ interface UrlForm {
 export default function Home() {
   const { register, handleSubmit } = useForm<UrlForm>();
   const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
+  const [isCopied, setCopiedStatus] = useState(false);
   const [url, setUrl] = useState<string>("");
-  const [value, copy] = useCopyToClipboard()
-  const baseUrl = "https://url-shortner-chi-silk.vercel.app/api/shrink/"
+  const [value, copy] = useCopyToClipboard();
+  const baseUrl = "https://url-shortner-chi-silk.vercel.app/api/shrink/";
   const onSubmit = async (data: UrlForm) => {
     try {
       const urlInfo = await axios.post("/api/shrink", data);
       let noisyUrl = stringify(urlInfo.data);
-      let shortUrl = noisyUrl.replace("shortUrl=", "")
-      setUrl(baseUrl+shortUrl);
+      let shortUrl = noisyUrl.replace("shortUrl=", "");
+      setUrl(baseUrl + shortUrl);
 
       setShowSuccessMessage(true);
     } catch (error) {
       console.error("Error while shrinking URL:", error);
     }
   };
-
+  const handleCopyClick = () => {
+    setCopiedStatus(true);
+    setTimeout(() => {
+      setCopiedStatus(false);
+    }, 2000);
+  };
   return (
     <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
       <div className="inline-block max-w-lg text-center justify-center">
@@ -65,24 +74,32 @@ export default function Home() {
               </button>
             </form>
             {showSuccessMessage && (
-                 <div className="flex items-center">
-                 <input
-                   readOnly
-                   type="text"
-                   defaultValue={url}
-                   className="input input-ghost input-primary input-md w-full md:max-w-xs lg:max-w-sm xl:max-w-md"
-                 />
-                 {/* Copy to Clipboard button */}
-                 <button
-                   type="button"
-                   className="btn btn-primary"
-                   onClick={() =>{
-                    copy(url)
-                   }}
-                 >
-                   Copy
-                 </button>
-               </div>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text text-neutral-content">
+                    Short URL
+                  </span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <input
+                    readOnly
+                    name="Short URL field"
+                    type="text"
+                    defaultValue={url}
+                    className="input input-ghost input-primary input-md w-full md:max-w-xs lg:max-w-sm xl:max-w-md"
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      copy(url);
+                      handleCopyClick();
+                    }}
+                  >
+                    {!isCopied ? <IoCopyOutline /> : <FaClipboardCheck />}
+                  </button>
+                </div>
+              </label>
             )}
           </div>
         </div>
