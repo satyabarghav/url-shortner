@@ -2,7 +2,7 @@ import Main from './logo';
 
 const Navbar = () => {
   return (
-    <div className="p-1 rounded-lg shadow-md">
+    <div className="p-1 backdrop-blur-xl rounded-lg shadow-md">
       <nav className="flex justify-between items-center py-1 px-6">
         <div className="flex items-center">
           <a className="btn btn-ghost" href="https://www.kluniversity.in/">

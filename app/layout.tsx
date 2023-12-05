@@ -21,12 +21,14 @@ export default function RootLayout({
     <html lang="en" data-theme="light">
       <body className={inter.className}>
         <Navbar />
+        <div className="bg-gradient-to-r from-rose-100 to-teal-100">
         <Providers>
         <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
 							{children}
 						</main>
         </Providers>
         <Footer />
+        </div>
       </body>
     </html>
   );
