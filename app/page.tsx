@@ -18,7 +18,7 @@ export default function Home() {
   const [isCopied, setCopiedStatus] = useState(false);
   const [url, setUrl] = useState<string>("");
   const [value, copy] = useCopyToClipboard();
-  const baseUrl = "https://url-shortner-chi-silk.vercel.app/api/shrink/";
+  const baseUrl = "https://url-shortner-chi-silk.vercel.app/";
   const onSubmit = async (data: UrlForm) => {
     try {
       const urlInfo = await axios.post("/api/shrink", data);
